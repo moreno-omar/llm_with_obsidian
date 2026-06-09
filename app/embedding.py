@@ -15,10 +15,11 @@ path_to_base_db = Path(base_db)
 
 print(f"{path_to_base_db}")
 
-"""
+
 # connect to vault. Skip template folder, formatted for plugin, not proper YAML file.
 vault = otools.Vault(path_to_base_db).connect().gather()
 
+"""
 # create persistent db
 # w/o path, should default to .chroma file
 client = chromadb.PersistentClient()
