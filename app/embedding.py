@@ -71,13 +71,14 @@ for counter in range(0, len(obsidian_list_of_file_names)):
         f"{obsidian_list_of_file_names[counter].strip()}"
     )
 
-    md_header_splits_doc = markdown_splitter.split_text(f"{obsidian_document}")
+    # print(obsidian_document)
 
-    print(f"{md_header_splits_doc}")
+    # once working, use this for optimization
+    # md_header_splits_doc = markdown_splitter.split_text(f"{obsidian_document}")
 
     collection.add(
         ids=[f"id{counter}"],
-        documents=f"{md_header_splits_doc}",
+        documents=f"{obsidian_document}",
     )
 
 

@@ -11,4 +11,4 @@ collection = client.get_collection(name="embedded_obsidian_vault")
 
 # query example
 # result = collection.query(query_texts=["kaggle"], n_results=5)
-# print(f"{result}")
+# print(f"{result.documents}")
