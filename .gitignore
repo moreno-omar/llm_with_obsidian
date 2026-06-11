@@ -2,3 +2,5 @@
 __pycache__/
 *.pyc
 chroma/
+.zed/
+app/obsidian_list.txt

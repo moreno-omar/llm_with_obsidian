@@ -17,6 +17,8 @@
 - browser for chat
   - `input()` is fine for simple testing
   - GUI will offer more benefits for chat.
+- CI/CD
+  - will be more effective during refactoring.
 
 ## Prerequisites
 **Python**: `Python 3.13.12`
