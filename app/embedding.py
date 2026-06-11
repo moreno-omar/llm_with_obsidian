@@ -59,14 +59,31 @@ md_header_splits = markdown_splitter.split_text(
     f"{vault.get_readable_text('ai_agent_kaggle_day1')}"
 )
 # print(f"{md_header_splits}")
-# print(f"{md_header_splits.count}")
 
-# add to collection
-# notes: documents has to be a string, is considered 1 entry (1 id required)
+# pipeline
+# counter as index for file_names, id for collection
 
-collection.delete(ids=["id1", "id2"])
+for counter in range(0, len(obsidian_list_of_file_names)):
+    print(f"{counter}")
+
+    # strip needed to remove \n from line.
+    obsidian_document = vault.get_readable_text(
+        f"{obsidian_list_of_file_names[counter].strip()}"
+    )
+
+    md_header_splits_doc = markdown_splitter.split_text(f"{obsidian_document}")
+
+    print(f"{md_header_splits_doc}")
+
+    collection.add(
+        ids=[f"id{counter}"],
+        documents=f"{md_header_splits_doc}",
+    )
+
 
 """
+# add to collection
+# notes: documents has to be a string, is considered 1 entry (1 id required)
 collection.add(
     ids=["id2"],
     documents=f"{md_header_splits}",
