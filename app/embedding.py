@@ -6,6 +6,19 @@ from pathlib import Path
 import chromadb
 import obsidiantools.api as otools
 from dotenv import find_dotenv, load_dotenv
+from langchain_text_splitters import MarkdownHeaderTextSplitter
+
+# setup for markdown splitter
+headers_to_split_on = [
+    ("#", "Header 1"),
+    ("##", "Header 2"),
+    ("###", "Header 3"),
+    ("####", "Header 4"),
+    ("#####", "Header 5"),
+    ("######", "Header 6"),
+]
+
+markdown_splitter = MarkdownHeaderTextSplitter(headers_to_split_on)
 
 load_dotenv()
 
@@ -19,11 +32,15 @@ print(f"{path_to_base_db}")
 # connect to vault. Skip template folder, formatted for plugin, not proper YAML file.
 vault = otools.Vault(path_to_base_db).connect().gather()
 
-"""
+
 # create persistent db
-# w/o path, should default to .chroma file
+# w/o path, should default to .chroma file, according to docs.
+# What happened : chroma/chroma.sqlite3
 client = chromadb.PersistentClient()
-"""
+
+# create collection. Default Embedding function from chromadb used.
+collection = client.get_or_create_collection(name="embedded_obsidian_vault")
+
 
 # create file with index of names, if file doesn't exist
 if not os.path.isfile("obsidian_list.txt"):
@@ -36,4 +53,22 @@ if not os.path.isfile("obsidian_list.txt"):
 with open("obsidian_list.txt", "rt") as f:
     obsidian_list_of_file_names = f.readlines()
 
-print(f"{obsidian_list_of_file_names[5]}")
+
+# print(f"{obsidian_list_of_file_names[5]}")
+md_header_splits = markdown_splitter.split_text(
+    f"{vault.get_readable_text('ai_agent_kaggle_day1')}"
+)
+# print(f"{md_header_splits}")
+# print(f"{md_header_splits.count}")
+
+# add to collection
+# notes: documents has to be a string, is considered 1 entry (1 id required)
+
+collection.delete(ids=["id1", "id2"])
+
+"""
+collection.add(
+    ids=["id2"],
+    documents=f"{md_header_splits}",
+)
+"""
